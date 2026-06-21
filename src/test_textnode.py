@@ -17,10 +17,20 @@ class TestTextNode(unittest.TestCase):
         node2 = TextNode("Testnode", TextType.ITALIC)
         self.assertNotEqual(node, node2)
 
+    def test_urlequal(self):
+        node = TextNode("Testnode 1", TextType.BOLD, "www.ingensteder.net")
+        node2 = TextNode("Testnode 1", TextType.BOLD, "www.ingensteder.net")
+        self.assertEqual(node, node2)
+
     def test_nourl(self):
         node = TextNode("Testnode 1", TextType.BOLD)
-        #node2 = TextNode("Testnode 1", TextType.BOLD)
         self.assertIsNone(node.url)
+
+    def test_repr(self):
+        node = TextNode("Testnode 1", TextType.BOLD, "www.ingensteder.net")
+        self.assertEqual(
+            "TextNode(Testnode 1, bold, www.ingensteder.net)",repr(node)
+        )
 
 
 
