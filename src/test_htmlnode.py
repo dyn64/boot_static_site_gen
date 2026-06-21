@@ -43,3 +43,5 @@ class TestHTMLNode(unittest.TestCase):
         ref = f'tag: tag1, value: val1, children: None, props: {node.props_to_html()}'
         self.assertEqual(ref, repr(node))
         
+if __name__ == '__main__':
+    unittest.main()
