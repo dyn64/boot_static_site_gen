@@ -1,12 +1,12 @@
-from __future__ import annotations
+#from __future__ import annotations
 
 class HTMLNode():
     def __init__(
             self,
             tag: str | None = None,
             value: str | None = None,
-            children: HTMLNode | None = None,
-            props: dict | None = None
+            children: list["HTMLNode"] | None = None,
+            props: dict[str,str] | None = None
     ) -> None:
         self.tag = tag
         self.value = value
@@ -27,3 +27,21 @@ class HTMLNode():
         return f"tag: {self.tag}, value: {self.value}, children: {self.children}, props: {self.props_to_html()}"
         
 
+class LeafNode(HTMLNode):
+    def __init__(
+            self,
+            tag: str,
+            value: str,
+            props = None
+            ) -> None:
+        super().__init__(tag, value, None, props)
+    
+    def to_html(self) -> str:
+        if self.value is None:
+            raise ValueError("All nodes must have a value")
+        if self.tag is None:
+            return self.value
+        return f'<{self.tag}{self.props_to_html()}>{self.value}</{self.tag}>'
+        
+    def __repr__(self):
+        return f"tag: {self.tag}, value: {self.value}, props: {self.props_to_html()}"
