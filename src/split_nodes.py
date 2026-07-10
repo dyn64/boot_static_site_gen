@@ -20,4 +20,4 @@ def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: 
             else:
                 out_nodes.append(TextNode(parts[i], text_type))
 
-    return out_nodes       
+    return out_nodes
