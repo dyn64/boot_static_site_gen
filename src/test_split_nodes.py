@@ -1,8 +1,8 @@
 import unittest
-from split_nodes import split_nodes_delimiter
+from split_nodes import split_nodes_delimiter,split_nodes_link,split_nodes_image
 from textnode import TextNode, TextType
 
-class TestSplitNode(unittest.TestCase):
+class TestSplitNodeDelimiter(unittest.TestCase):
     def test_text(self):
         test_node = [
                   TextNode("this is just text",TextType.TEXT),
@@ -90,6 +90,44 @@ class TestSplitNode(unittest.TestCase):
                   TextNode("just text", TextType.TEXT)
                   ]
         self.assertListEqual(split_node, correct_node)
+
+class TestSplitNodeImage(unittest.TestCase):
+    def test_split_images(self):
+        node = TextNode(
+            "This is text with an ![image](https://i.imgur.com/zjjcJKZ.png) and another ![second image](https://i.imgur.com/3elNhQu.png)",
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_image([node])
+        self.assertListEqual(
+            [
+                TextNode("This is text with an ", TextType.TEXT),
+                TextNode("image", TextType.IMAGE, "https://i.imgur.com/zjjcJKZ.png"),
+                TextNode(" and another ", TextType.TEXT),
+                TextNode(
+                    "second image", TextType.IMAGE, "https://i.imgur.com/3elNhQu.png"
+                ),
+            ],
+            new_nodes,
+        )
+
+class TestSplitNodeLink(unittest.TestCase):
+    def test_split_link(self):
+        node = TextNode(
+            "This is text with a [link](https://i.imgur.com/zjjcJKZ.png) and another [second link](https://i.imgur.com/3elNhQu.png)",
+            TextType.TEXT,
+        )
+        new_nodes = split_nodes_link([node])
+        self.assertListEqual(
+            [
+                TextNode("This is text with a ", TextType.TEXT),
+                TextNode("link", TextType.LINK, "https://i.imgur.com/zjjcJKZ.png"),
+                TextNode(" and another ", TextType.TEXT),
+                TextNode(
+                    "second link", TextType.LINK, "https://i.imgur.com/3elNhQu.png"
+                ),
+            ],
+            new_nodes,
+        )
 
 if __name__ == "__main__":
     unittest.main()
