@@ -1,5 +1,6 @@
 from textnode import TextNode, TextType
 from extract_markdown import extract_markdown_images, extract_markdown_links
+import re
 
 def split_nodes_delimiter(old_nodes: list[TextNode], delimiter: str, text_type: TextType) -> list[TextNode]:
     out_nodes = []
@@ -53,7 +54,6 @@ def split_nodes_image(old_nodes: list[TextNode]) -> list[TextNode]:
             out_nodes.append(TextNode(rawtext, TextType.TEXT))
     return out_nodes
 
-
 def split_nodes_link(old_nodes: list[TextNode]) -> list[TextNode]:
     out_nodes = []
     for node in old_nodes:
@@ -92,3 +92,18 @@ def text_to_textnode(text: str) -> list[TextNode]:
     nodes = split_nodes_image(nodes)
     nodes = split_nodes_link(nodes)
     return nodes
+
+def markdown_to_blocks(text: str) -> list[str]:
+    if len(text) == 0:
+        return [""]
+    
+    blocks = text.split('\n\n')
+    output = []
+    for block in blocks:
+        if block == "":
+            continue
+        block = block.strip()
+        block = re.sub(r'\n\s+', '\n', block)
+        output.append(block)
+
+    return output
