@@ -18,15 +18,16 @@ class PatternBlockType(Enum):
     UNORDERED_LIST = r'- '
     ORDERED_LIST = r'\d\. '
 
-
-def block_to_blocktype(text: str) -> BlockType:
-    rBlockType = {
+rBlockType = {
         BlockType.HEADING : re.compile(r'#{1,6} '),
         BlockType.CODE: re.compile(r'```\n'),
         BlockType.QUOTE: re.compile(r'>'),
         BlockType.UNORDERED_LIST: re.compile(r'- '),
         BlockType.ORDERED_LIST: re.compile(r'\d\. ')
     }
+
+
+def block_to_blocktype(text: str) -> BlockType:
 
     if re.match(rBlockType[BlockType.HEADING], text) != None:
         return BlockType.HEADING

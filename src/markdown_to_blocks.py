@@ -1,5 +1,4 @@
 import re
-from textnode import TextNode
 
 def markdown_to_blocks(text: str) -> list[str]:
     if len(text) == 0:
