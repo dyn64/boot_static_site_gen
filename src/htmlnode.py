@@ -14,7 +14,7 @@ class HTMLNode():
         self.props = props
 
     def to_html(self) -> str:
-        raise NotImplementedError("not implemented")
+        raise ValueError('Not implemented')        
     
     def props_to_html(self) -> str:
         ret_string = ""
