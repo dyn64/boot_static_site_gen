@@ -14,7 +14,7 @@ class Test_Markdown_to_html_node(unittest.TestCase):
 > kvote 1
 > q 2"""
         node = parse_nodes(text)
-        html = "<div><blockquote> kvote 1\n q 2</blockquote></div>"
+        html = "<div><blockquote>kvote 1\nq 2</blockquote></div>"
         self.assertEqual(html, node.to_html())
 
     def test_ulist(self):

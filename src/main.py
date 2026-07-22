@@ -2,8 +2,7 @@
 
 from textnode import *
 from copy_files import update_public_dir
-import os
-import shutil
+from generate_page import generate_page
 import logging
 logger = logging.getLogger(__name__)
 
@@ -25,6 +24,7 @@ def main():
     logger.info('running update_public_dir()')
     update_public_dir()
     logger.info('-- end --')
+    generate_page('content/index.md', 'template.html', 'public/index.html')
 
 
 if __name__ == "__main__":

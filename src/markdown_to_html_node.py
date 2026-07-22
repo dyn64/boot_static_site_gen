@@ -35,8 +35,8 @@ def parse_nodes(text: str) -> ParentNode:
             case BlockType.QUOTE:
                 # make htmlnode with tag blockquote
                 # check for children
-                quote = block.split(">", 1)
-                quote = quote[1].replace("\n>", "\n")
+                quote = block.split("> ", 1)
+                quote = (quote[1].replace("\n> ", "\n")).strip()
                 children = parse_children(quote)
                 out_htmlnodes.append(ParentNode("blockquote", children))
             case BlockType.UNORDERED_LIST:

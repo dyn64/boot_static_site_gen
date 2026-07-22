@@ -1,5 +1,5 @@
 import unittest
-from extract_markdown import extract_markdown_images, extract_markdown_links
+from extract_markdown import extract_markdown_images, extract_markdown_links, extract_title
 
 class TestExtractMarkdown(unittest.TestCase):
     def test_image(self):
@@ -20,6 +20,31 @@ class TestExtractMarkdown(unittest.TestCase):
             ]
         self.assertListEqual(extract_markdown_links(markdown_text), correct_links)
 
+class TestExtractMarkdown_title(unittest.TestCase):
+    def test_h1(self):
+        text = "# title 1"
+        correct_response = "title 1"
+        self.assertEqual(correct_response, extract_title(text))
+
+    def test_h1_more(self):
+        text = "# title 1\n\nsome other text\nmore"
+        correct_response = "title 1"
+        self.assertEqual(correct_response, extract_title(text))
+
+    def test_h1_fail(self):
+        text = "## title 1"
+        correct_error = "No header found"
+        with self.assertRaises(ValueError) as context:
+            title = extract_title(text)
+        self.assertEqual(str(context.exception), correct_error)
+
+    def test_h2_fail(self):
+        text = "## title 2"
+        correct_error = "No header found"
+        with self.assertRaises(ValueError) as context:
+            title = extract_title(text)
+        self.assertEqual(str(context.exception), correct_error)
+        
 
 if __name__ == "__main__":
     unittest.main()
