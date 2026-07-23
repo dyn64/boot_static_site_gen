@@ -17,7 +17,7 @@ def main():
 
     logging.basicConfig(filename='debug.log', level=logging.INFO)
     logger.info('running update_public_dir()')
-    update_public_dir(source_dir, dest_dir)
+    update_public_dir('static', dest_dir)
 
     logger.info('Generating pages')
 #    generate_pages_recursive('content', 'template.html', 'public')
