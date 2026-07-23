@@ -4,7 +4,7 @@ import re, os
 import logging
 logger = logging.getLogger(__name__)
 
-def generate_page(from_path: str, template_path: str, dest_path: str) -> None:
+def generate_page(from_path: str, template_path: str, dest_path: str, base_path) -> None:
     print(f'Generating page from {from_path} to {dest_path} using {template_path}')
     
     with open(from_path) as file:
@@ -21,6 +21,8 @@ def generate_page(from_path: str, template_path: str, dest_path: str) -> None:
 
     new_file = template_file.replace('{{ Title }}', title)
     new_file = new_file.replace('{{ Content }}', main_html_node)
+    new_file = new_file.replace('href="/', f'href="{base_path}')
+    new_file = new_file.replace('src="/', f'src="{base_path}')
 
     dirs = dest_path.split(dest_path.split('/')[-1])[0]
     os.makedirs(dirs,exist_ok=True)
@@ -29,11 +31,11 @@ def generate_page(from_path: str, template_path: str, dest_path: str) -> None:
         file.write(new_file)
         file.close()
 
-def generate_pages_recursive(dir_path_content: str, template_path: str, dest_dir_path: str) -> None:
+def generate_pages_recursive(dir_path_content: str, template_path: str, dest_dir_path: str, base_path="/") -> None:
     if os.path.isfile(dir_path_content):
         new_dest = dest_dir_path.replace('.md', '.html')
         logger.info(f'generating file: "{new_dest}" from: "{dir_path_content}"')
-        generate_page(dir_path_content, template_path, new_dest)
+        generate_page(dir_path_content, template_path, new_dest, base_path)
     else:
         content = os.listdir(dir_path_content)
         logger.info(f'"{dir_path_content}" is a directory. Parsing')
@@ -42,4 +44,4 @@ def generate_pages_recursive(dir_path_content: str, template_path: str, dest_dir
             new_dest = os.path.join(dest_dir_path, c)
             logger.info(f'Calling recursive function')
             logger.info(f'Source: "{new_src}" - Dest: "{new_dest}"')
-            generate_pages_recursive(new_src, template_path, new_dest)
+            generate_pages_recursive(new_src, template_path, new_dest, base_path)

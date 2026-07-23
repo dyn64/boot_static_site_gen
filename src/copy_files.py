@@ -3,20 +3,17 @@ import shutil
 import logging
 logger = logging.getLogger(__name__)
 
-def update_public_dir() -> None:
-    source_dir = "static"
-    destination_dir = "public"
+def update_public_dir(source_dir: str, dest_dir: str) -> None:
     if not os.path.exists(source_dir):
         raise NotADirectoryError(f"{source_dir} not found")
     
-#    dest_content = os.listdir(destination_dir)
-    if os.path.exists(destination_dir):
-        logger.info(f' "{destination_dir}" found, removing..')
-        shutil.rmtree(destination_dir)
-    logger.info(f'mkdir "{destination_dir}"')
-    os.mkdir(destination_dir)
+    if os.path.exists(dest_dir):
+        logger.info(f' "{dest_dir}" found, removing..')
+        shutil.rmtree(dest_dir)
+    logger.info(f'mkdir "{dest_dir}"')
+    os.mkdir(dest_dir)
 
-    copy_tree(source_dir, destination_dir)
+    copy_tree(source_dir, dest_dir)
 
 def copy_tree(src: str, dest: str) -> None:
     if not os.path.isdir(src) or not os.path.isdir(dest):
