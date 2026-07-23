@@ -22,8 +22,11 @@ def generate_page(from_path: str, template_path: str, dest_path: str) -> None:
     new_file = template_file.replace('{{ Title }}', title)
     new_file = new_file.replace('{{ Content }}', main_html_node)
 
-    dirs = re.sub(re.compile(r'/\w+\..{3}$'),"", dest_path)
+    #dirs = re.sub(re.compile(r'/\w+\..{3}$'),"", dest_path)
     #os.makedirs(dirs)
+    dirs = dest_path.split(dest_path.split('/')[-1])[0]
+    os.makedirs(dirs,exist_ok=True)
+
 
     with open(dest_path, "w") as file:
         file.write(new_file)
